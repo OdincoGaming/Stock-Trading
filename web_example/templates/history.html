@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <table>
+      <tr>
+        <th>Symbol</th>
+        <th>Shares</th>
+        <th>Price</th>
+        <th>Count</th>
+      </tr>
+    {% for hp in history %}
+      <tr>
+        <td>{{ hp.id }}</td>
+        <td>{{ hp.symbol }}</td>
+        <td>{{ hp.shares }}</td>
+        <td>{{ hp.price }}</td>
+      </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}
