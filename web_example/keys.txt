@@ -1,2 +1,0 @@
-token = pk_37dc5a8b73b0497cac872cf90128f2e6
-acc_num = 7679a290afde9cd5487c43988cbe83c2
