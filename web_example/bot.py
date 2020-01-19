@@ -56,7 +56,7 @@ def BuyAtLimit(symbol, qty, tif, limit_price):
     qty=qty,
     side='buy',
     type='limit',
-    limit_price=limit_price
+    limit_price=limit_price,
     time_in_force=tif
 )
 
@@ -66,8 +66,8 @@ def BuyAtStopLimit(symbol, qty, tif, limit_price, stop_price):
     qty=qty,
     side='buy',
     type='stop_limit',
-    limit_price=limit_price
-    stop_price=stop_price
+    limit_price=limit_price,
+    stop_price=stop_price,
     time_in_force=tif
 )
 
@@ -87,7 +87,7 @@ def SellAtLimit(symbol, qty, tif, limit_price):
     qty=qty,
     side='sell',
     type='limit',
-    limit_price=limit_price
+    limit_price=limit_price,
     time_in_force=tif
 )
 
@@ -97,8 +97,8 @@ def SellAtStopLimit(symbol, qty, tif, limit_price, stop_price):
     qty=qty,
     side='sell',
     type='stop_limit',
-    limit_price=limit_price
-    stop_price=stop_price
+    limit_price=limit_price,
+    stop_price=stop_price,
     time_in_force=tif
 )
 

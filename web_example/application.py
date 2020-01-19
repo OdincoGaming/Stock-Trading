@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request
-import bot
+import sys
+import os
+sys.path.append(os.getcwd())
+from . import bot
 
 app = Flask(__name__)
 acc_key = ''
@@ -18,3 +21,7 @@ def login():
 def account_info():
     portfolio, net_worth, stock_worth = bot.AccountInfo()
     return render_template("account.html", portfolio=portfolio, net_worth=net_worth, stock_worth=stock_worth)
+
+@app.route("/test", methods=["GET", "POST"])
+def test():
+    return render_template("test.html")
