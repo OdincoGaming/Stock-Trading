@@ -5,11 +5,8 @@
 {% endblock %}
 
 {% block main %}
-<form action="{{url_for('login')}}" method="post">
-    <input type="text" name="acc_key" placeholder="Access Key">
-    <button>Submit</button>
-</form>
-
+<h1>Hello, World!</h1>
+<p>This is NOT a test of the emergency broadcast system!</p>
+<hr>
 <a href="{{ url_for('test') }}">test</a>
-<a href="{{ url_for('account_info) }}">test</a>
 {% endblock %}
