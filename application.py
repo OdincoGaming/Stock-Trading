@@ -1,7 +1,4 @@
 from flask import Flask, render_template, request
-import sys
-import os
-sys.path.append(os.getcwd())
 from . import bot
 
 app = Flask(__name__)
