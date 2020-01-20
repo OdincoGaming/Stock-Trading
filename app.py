@@ -46,8 +46,7 @@ def stock_data():
     enoch = 'minute'
     limit = 10
     data = GetAveragePrice(symbol, enoch, limit=limit)
-    test_string = 'hello world'
-    return test_string
+    return data
 
 if __name__ == '__main__':
     app.debug = True
