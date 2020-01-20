@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
 import alpaca_trade_api as tradeapi
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -14,13 +15,17 @@ APCA_API_BASE_URL = "https://paper-api.alpaca.markets"
 api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, 'v2')
 
 def GetAveragePrice(symbol, enoch, limit):
-    data = []
+    averages = []
+    times = []
     barset = api.get_barset(symbol, enoch, limit=limit)
     bars = barset[symbol]
     for i in range(limit):
         a = str((bars[i].o + bars[i].c)/2)
         t = bars[i].t
-        data.append(f"{t}, {a}")
+        averages.append(a)
+        times.append(t)
+    times.extend(averages)
+    data = times
     return data
 
 
