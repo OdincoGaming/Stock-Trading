@@ -12,7 +12,6 @@ flask-session = "*"
 gunicorn = "*"
 requests = "*"
 flask-cors = "*"
-jsonify = "*"
 
 [requires]
 python_version = "3.7"
