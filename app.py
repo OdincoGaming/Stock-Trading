@@ -16,10 +16,10 @@ api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, 'v2')
 
 def GetAveragePrice(symbol, enoch, limit):
     averages = []
-    times = []
     barset = api.get_barset(symbol, enoch, limit=limit)
     bars = barset[symbol]
     for i in range(limit):
+<<<<<<< HEAD
         a = str((bars[i].o + bars[i].c)/2)
         t = bars[i].t
         averages.append(a)
@@ -27,6 +27,10 @@ def GetAveragePrice(symbol, enoch, limit):
     times.extend(averages)
     data = times
     return data
+=======
+        averages.append((bars[i].o + bars[i].c)/2)
+    return averages
+>>>>>>> parent of 372e8d5... data now includes time
 
 
 ####
