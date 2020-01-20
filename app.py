@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
 import alpaca_trade_api as tradeapi
 
@@ -46,7 +46,7 @@ def stock_data():
     enoch = 'minute'
     limit = 10
     data = GetAveragePrice(symbol, enoch, limit=limit)
-    return data
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.debug = True
