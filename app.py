@@ -14,14 +14,14 @@ APCA_API_BASE_URL = "https://paper-api.alpaca.markets"
 api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, 'v2')
 
 def GetAveragePrice(symbol, enoch, limit):
-    averages = []
-    times = []
+    data = []
     barset = api.get_barset(symbol, enoch, limit=limit)
     bars = barset[symbol]
     for i in range(limit):
-        averages.append((bars[i].o + bars[i].c)/2)
-        times.append(bars[i].t)
-    return averages, times
+        a = str((bars[i].o + bars[i].c)/2)
+        t = bars[i].t
+        data.append(f"{t}, {a}")
+    return data
 
 
 ####
@@ -47,8 +47,8 @@ def stock_data():
     symbol = 'AAPL'
     enoch = 'minute'
     limit = 10
-    average, time = GetAveragePrice(symbol, enoch, limit=limit)
-    return ( jsonify(average), jsonify(time) )
+    data = GetAveragePrice(symbol, enoch, limit=limit)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.debug = True
