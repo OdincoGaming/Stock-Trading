@@ -16,7 +16,8 @@ def index():
 @app.route("/test")
 @cross_origin()
 def test():
-    return render_template("test.html")
+    test_string = 'this is not a test of the emergency broadcast system'
+    return test_string
 
 if __name__ == '__main__':
     app.debug = True
