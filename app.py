@@ -9,11 +9,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 #above any definition that requires it
 
 @app.route('/')
-#@cross_origin()
+@cross_origin()
 def index():
     return render_template('index.html')
 
 @app.route("/test")
+@cross_origin()
 def test():
     return render_template("test.html")
 
