@@ -15,11 +15,13 @@ api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, 'v2')
 
 def GetAveragePrice(symbol, enoch, limit):
     averages = []
+    times = []
     barset = api.get_barset(symbol, enoch, limit=limit)
     bars = barset[symbol]
     for i in range(limit):
         averages.append((bars[i].o + bars[i].c)/2)
-    return averages
+        times.append(bars[i].t)
+    return averages, times
 
 
 ####
@@ -45,8 +47,8 @@ def stock_data():
     symbol = 'AAPL'
     enoch = 'minute'
     limit = 10
-    data = GetAveragePrice(symbol, enoch, limit=limit)
-    return jsonify(data)
+    average, time = GetAveragePrice(symbol, enoch, limit=limit)
+    return ( jsonify(average), jsonify(time) )
 
 if __name__ == '__main__':
     app.debug = True
