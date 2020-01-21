@@ -56,6 +56,12 @@ def stock_data():
     data = GetAveragePrice(symbol, enoch, limit=limit)
     return jsonify(data)
 
+@app.route('/stock/<string:company>/<string:time_scale>/<int:limit>', methods=['GET'])
+@cross_origin()
+def get_stock_data(company, time_scale, limit):
+    data = GetAveragePrice(company, time_scale, limit)
+    return jsonify(data)
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
