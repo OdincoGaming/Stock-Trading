@@ -23,5 +23,33 @@ def GetAveragePrice(symbol, enoch, limit):
     data.append(data_dict)
     return data
 
-data = GetAveragePrice('AAPL', 'minute', limit=10)
+def GetAllPrices(enoch, limit):
+    active_stocks = api.list_assets(status='active')
+    dataset = []
+    for a in active_stocks:
+        symbol = a.symbol
+        averages = []
+        times = []
+        barset = api.get_barset(symbol, enoch, limit=limit)
+        bars = barset[symbol]
+        try:
+            for i in range(limit):
+                a = str((bars[i].o + bars[i].c)/2)
+                averages.append(a)
+                t = bars[i].t
+                times.append(t)
+                data_dict = {"symbol": symbol, "time": times, "price": averages}
+            dataset.append(data_dict)
+        except:
+            print(f'not enough data for {symbol}')
+    return dataset
+
+def GetListOfStocks():
+    stock_list = api.list_assets(status='active')
+    stocks = []
+    for a in stock_list:
+        stocks.append(a.symbol)
+    return stocks
+
+data = GetListOfStocks()
 print(data)

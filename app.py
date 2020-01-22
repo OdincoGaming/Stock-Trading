@@ -29,6 +29,12 @@ def GetAveragePrice(symbol, enoch, limit):
     #data.append(data_dict)
     return data_dict
 
+def GetListOfStocks():
+    stocks = api.list_assets(status='active')
+    stock_list = []
+    for s in stocks:
+        stock_list.append(s.symbol)
+    return stock_list
 
 ####
 #### PYTHON
@@ -55,6 +61,12 @@ def stock_data():
     limit = 10
     data = GetAveragePrice(symbol, enoch, limit=limit)
     return jsonify(data)
+
+@app.route('/stock_list')
+@cross_origin()
+def stock_list():
+    stock_list = GetListOfStocks()
+    return jsonify(stock_list)
 
 @app.route('/stock/<string:company>/<string:time_scale>/<int:limit>', methods=['GET'])
 @cross_origin()
