@@ -36,6 +36,7 @@ def GetListOfStocks():
         stock_list.append(s.symbol)
     return stock_list
 
+
 ####
 #### PYTHON
 ###########
@@ -53,6 +54,7 @@ def test():
     test_string = 'this is not a test of the emergency broadcast system'
     return test_string
 
+#example of how to retrieve stock_data, will deprecate and delete in later updates
 @app.route('/stock_data')
 @cross_origin()
 def stock_data():
@@ -62,12 +64,12 @@ def stock_data():
     data = GetAveragePrice(symbol, enoch, limit=limit)
     return jsonify(data)
 
-@app.route('/stock_list')
+@app.route('/stock/list')
 @cross_origin()
 def stock_list():
     stock_list = GetListOfStocks()
     return jsonify(stock_list)
-
+    
 @app.route('/stock/<string:company>/<string:time_scale>/<int:limit>', methods=['GET'])
 @cross_origin()
 def get_stock_data(company, time_scale, limit):
