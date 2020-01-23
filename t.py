@@ -1,4 +1,5 @@
 import alpaca_trade_api as tradeapi
+import requests
 
 
 #TODO generate key and secret dynamically from web app using user login
@@ -51,5 +52,15 @@ def GetListOfStocks():
         stocks.append(a.symbol)
     return stocks
 
-data = GetListOfStocks()
+def get_symbol(symbol):
+    url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(symbol)
+
+    result = requests.get(url).json()
+    for x in result['ResultSet']['Result']:
+        if x['symbol'] == symbol:
+            symbol_name = {'name': x['name'], 'symbol': x['symbol']}
+            return symbol_name
+
+active_stocks = api.list_assets(status='active')
+data = get_symbol('AAPL')
 print(data)

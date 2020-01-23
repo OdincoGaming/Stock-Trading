@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
 import alpaca_trade_api as tradeapi
+import requests
 import json
 
 app = Flask(__name__)
@@ -36,6 +37,14 @@ def GetListOfStocks():
         stock_list.append(s.symbol)
     return stock_list
 
+def get_symbol(symbol):
+    url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(symbol)
+
+    result = requests.get(url).json()
+    for x in result['ResultSet']['Result']:
+        if x['symbol'] == symbol:
+            symbol_name = {'name': x['name'], 'symbol': x['symbol']}
+            return symbol_name
 
 ####
 #### PYTHON
@@ -70,6 +79,12 @@ def stock_list():
     stock_list = GetListOfStocks()
     return jsonify(stock_list)
     
+@app.route('/stock/name/<string:company>')
+@cross_origin()
+def get_stock_name(company):
+    data = get_stock_name(company)
+    return jsonify(data)  
+
 @app.route('/stock/<string:company>/<string:time_scale>/<int:limit>', methods=['GET'])
 @cross_origin()
 def get_stock_data(company, time_scale, limit):
