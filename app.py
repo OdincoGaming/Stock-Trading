@@ -69,16 +69,6 @@ def stock_list():
     stock_list = GetListOfStocks()
     return jsonify(stock_list)
 
-@app.route('/stock/list/name')
-@cross_origin()
-def stock_list_name():
-    stock_list = GetListOfStocks()
-    dataset = []
-    for symbol in stock_list:
-        data = GetSymbol(symbol)
-        dataset.append(data)
-    return jsonify(data)
-
 @app.route('/stock/name/<string:company>', methods=['GET'])
 @cross_origin()
 def get_stock_name(company):

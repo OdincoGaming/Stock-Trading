@@ -61,6 +61,3 @@ def get_symbol(symbol):
             symbol_name = {'name': x['name'], 'symbol': x['symbol']}
             return symbol_name
 
-active_stocks = api.list_assets(status='active')
-data = get_symbol('AAPL')
-print(data)
