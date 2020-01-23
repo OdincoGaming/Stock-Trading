@@ -78,7 +78,13 @@ def stock_data():
 def stock_list():
     stock_list = GetListOfStocks()
     return jsonify(stock_list)
-    
+
+@app.route('/stock_name')
+@cross_origin()
+def get_stock_name():
+    data = get_stock_name('AAPL')
+    return jsonify(data)
+
 @app.route('/stock/name/<string:company>')
 @cross_origin()
 def get_stock_name(company):
