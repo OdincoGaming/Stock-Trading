@@ -81,7 +81,7 @@ def stock_list():
 
 @app.route('/stock_name')
 @cross_origin()
-def get_stock_name():
+def get_stock_name_test():
     data = GetSymbol('AAPL')
     return jsonify(data)
 
