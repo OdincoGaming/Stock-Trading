@@ -63,29 +63,23 @@ def test():
     test_string = 'this is not a test of the emergency broadcast system'
     return test_string
 
-#example of how to retrieve stock_data, will deprecate and delete in later updates
-@app.route('/stock_data')
-@cross_origin()
-def stock_data():
-    symbol = 'AAPL'
-    enoch = 'minute'
-    limit = 10
-    data = GetAveragePrice(symbol, enoch, limit=limit)
-    return jsonify(data)
-
 @app.route('/stock/list')
 @cross_origin()
 def stock_list():
     stock_list = GetListOfStocks()
     return jsonify(stock_list)
 
-@app.route('/stock_name')
+@app.route('/stock/list/name')
 @cross_origin()
-def get_stock_name_test():
-    data = GetSymbol('AAPL')
+def stock_list_name():
+    stock_list = GetListOfStocks()
+    dataset = []
+    for symbol in stock_list:
+        data = GetSymbol(symbol)
+        dataset.append(data)
     return jsonify(data)
 
-@app.route('/stock/name/<string:company>')
+@app.route('/stock/name/<string:company>', methods=['GET'])
 @cross_origin()
 def get_stock_name(company):
     data = GetSymbol(company)
