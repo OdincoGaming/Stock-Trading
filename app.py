@@ -63,7 +63,7 @@ def test():
     test_string = 'this is not a test of the emergency broadcast system'
     return test_string
 
-@app.route('/stock/list')
+@app.route('/stock/list', methods=['GET'])
 @cross_origin()
 def stock_list():
     stock_list = GetListOfStocks()
