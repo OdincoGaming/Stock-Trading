@@ -37,7 +37,7 @@ def GetListOfStocks():
         stock_list.append(s.symbol)
     return stock_list
 
-def get_symbol(symbol):
+def GetSymbol(symbol):
     url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(symbol)
 
     result = requests.get(url).json()
@@ -82,13 +82,13 @@ def stock_list():
 @app.route('/stock_name')
 @cross_origin()
 def get_stock_name():
-    data = get_stock_name('AAPL')
+    data = GetSymbol('AAPL')
     return jsonify(data)
 
 @app.route('/stock/name/<string:company>')
 @cross_origin()
 def get_stock_name(company):
-    data = get_stock_name(company)
+    data = GetSymbol(company)
     return jsonify(data)  
 
 @app.route('/stock/<string:company>/<string:time_scale>/<int:limit>', methods=['GET'])
