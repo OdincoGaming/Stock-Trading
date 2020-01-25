@@ -21,13 +21,12 @@ def GetStock(symbol, enoch, limit):
     times = []
     barset = api.get_barset(symbol, enoch, limit=limit)
     bars = barset[symbol]
-    name = GetNameOfCompany(bars[i].symbol)
     for i in range(limit):
         a = str((bars[i].o + bars[i].c)/2)
         averages.append(a)
         t = bars[i].t
         times.append(t)
-    data_dict = {'name': name, "symbol": bars[i].symbol, "time": times, "price": averages, "currentPrice": averages[-1]}
+    data_dict = {'name': name, "symbol": symbol, "time": times, "price": averages, "currentPrice": averages[-1]}
     #data.append(data_dict)
     return data_dict
 
