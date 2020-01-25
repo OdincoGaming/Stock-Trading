@@ -15,18 +15,19 @@ API_SECRET = "cKRe5EdTOt7pGZMJaFAeuLdFeTBTESb3JYuzkCYL"
 APCA_API_BASE_URL = "https://paper-api.alpaca.markets"
 api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, 'v2')
 
-def GetAveragePrice(symbol, enoch, limit):
+def GetStock(symbol, enoch, limit):
     #data = []
     averages = []
     times = []
     barset = api.get_barset(symbol, enoch, limit=limit)
     bars = barset[symbol]
+    name = GetNameOfCompany(bars[i].symbol)
     for i in range(limit):
         a = str((bars[i].o + bars[i].c)/2)
         averages.append(a)
         t = bars[i].t
         times.append(t)
-    data_dict = {"time": times, "price": averages}
+    data_dict = {'name': name, "symbol": bars[i].symbol, "time": times, "price": averages, "currentPrice": averages[-1]}
     #data.append(data_dict)
     return data_dict
 
@@ -37,7 +38,7 @@ def GetListOfStocks():
         stock_list.append(s.symbol)
     return stock_list
 
-def GetSymbol(symbol):
+def GetNameOfCompany(symbol):
     url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(symbol)
 
     result = requests.get(url).json()
@@ -69,16 +70,16 @@ def stock_list():
     stock_list = GetListOfStocks()
     return jsonify(stock_list)
 
-@app.route('/stock/name/<string:company>', methods=['GET'])
+@app.route('/stock/<string:company>/symbol', methods=['GET'])
 @cross_origin()
 def get_stock_name(company):
-    data = GetSymbol(company)
+    data = GetNameOfCompany(company)
     return jsonify(data)  
 
 @app.route('/stock/<string:company>/<string:time_scale>/<int:limit>', methods=['GET'])
 @cross_origin()
 def get_stock_data(company, time_scale, limit):
-    data = GetAveragePrice(company, time_scale, limit)
+    data = GetStock(company, time_scale, limit)
     return jsonify(data)
 
 if __name__ == '__main__':
