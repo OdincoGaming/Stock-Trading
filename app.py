@@ -64,6 +64,13 @@ def test():
     test_string = 'this is not a test of the emergency broadcast system'
     return test_string
 
+# Used to wake up app on when front page loads.
+# This way the app warms up before user starts searching for stock.
+@app.route('/awake')
+@cross_origin()
+def awake_app():
+    return 'App #woke'
+
 @app.route('/stock/list', methods=['GET'])
 @cross_origin()
 def stock_list():
