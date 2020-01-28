@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\ThisPC\\.virtualenvs\\Stock-Trading-0a0kpcSX\\Scripts\\python.exe"
+    "python.pythonPath": "C:\\Users\\ianmc\\.virtualenvs\\Stock-Trading-YFfVjiLO\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

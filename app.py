@@ -22,12 +22,17 @@ def GetStock(symbol, enoch, limit):
     barset = api.get_barset(symbol, enoch, limit=limit)
     bars = barset[symbol]
     name = GetNameOfCompany(symbol)
+    # Only need current high/low, so to save list size these 
+    # arent arrays 
+    # -Mayor of Bikini Bottom aka Ian
+    high = str(round(bars[-1].o, 2))
+    low = str(round(bars[-1].c, 2))
     for i in range(limit):
-        a = str((bars[i].o + bars[i].c)/2)
+        a = str(round((bars[i].o + bars[i].c)/2, 2))
         averages.append(a)
         t = bars[i].t
         times.append(t)
-    data_dict = {'name': name['name'], "symbol": symbol, "time": times, "price": averages, "currentPrice": averages[-1]}
+    data_dict = {'name': name['name'], "symbol": symbol, "time": times, "price": averages, "low": low, "high": high, "currentPrice": averages[-1]}
     #data.append(data_dict)
     return data_dict
 
