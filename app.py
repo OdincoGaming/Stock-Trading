@@ -1,20 +1,64 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
 import alpaca_trade_api as tradeapi
-from alpha_vantage.timeseries import TimeSeries
+import requests
+import json
 
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-av_key = 'RSNI4SWZTXYEPLWK'
-ts = TimeSeries(av_key)
 #TODO generate key and secret dynamically from web app using user login
 API_KEY = "PKUXRZ6GHDZE9VXGYO2F"
 API_SECRET = "cKRe5EdTOt7pGZMJaFAeuLdFeTBTESb3JYuzkCYL"
 #paper-api is practice trading, live-api is real trading, also generate dynamically
 APCA_API_BASE_URL = "https://paper-api.alpaca.markets"
 api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, 'v2')
+
+def GetStock(symbol, enoch, limit):
+    #data = []
+    symbol = symbol.upper()
+    averages = []
+    times = []
+    barset = api.get_barset(symbol, enoch, limit=limit)
+    bars = barset[symbol]
+    name = GetNameOfCompany(symbol)
+    # Only need current high/low, so to save list size these 
+    # arent arrays 
+    # -Mayor of Bikini Bottom aka Ian
+    high = str(round(bars[-1].o, 2))
+    low = str(round(bars[-1].c, 2))
+    for i in range(limit):
+        a = str(round((bars[i].o + bars[i].c)/2, 2))
+        averages.append(a)
+        t = bars[i].t
+        times.append(t)
+    data_dict = {'name': name['name'], "symbol": symbol, "time": times, "price": averages, "low": low, "high": high, "currentPrice": averages[-1]}
+    #data.append(data_dict)
+    return data_dict
+
+def GetListOfStocks():
+    stocks = api.list_assets(status='active')
+    stock_list = []
+    for s in stocks:
+        stock_list.append(s.symbol)
+    return stock_list
+
+def GetNameOfCompany(symbol):
+    symbol = symbol.upper()
+    url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(symbol)
+
+    result = requests.get(url).json()
+    for x in result['ResultSet']['Result']:
+        if x['symbol'] == symbol:
+            symbol_name = {'name': x['name'], 'symbol': x['symbol']}
+            return symbol_name
+
+####
+#### PYTHON
+###########
+#### WEB
+####
 
 @app.route('/')
 @cross_origin()
@@ -26,6 +70,31 @@ def index():
 def test():
     test_string = 'this is not a test of the emergency broadcast system'
     return test_string
+
+# Used to wake up app on when front page loads.
+# This way the app warms up before user starts searching for stock.
+@app.route('/awake')
+@cross_origin()
+def awake_app():
+    return 'App #woke'
+
+@app.route('/stock/list', methods=['GET'])
+@cross_origin()
+def stock_list():
+    stock_list = GetListOfStocks()
+    return jsonify(stock_list)
+
+@app.route('/stock/<string:company>/symbol', methods=['GET'])
+@cross_origin()
+def get_stock_name(company):
+    data = GetNameOfCompany(company)
+    return jsonify(data)  
+
+@app.route('/stock/<string:company>/<string:time_scale>/<int:limit>', methods=['GET'])
+@cross_origin()
+def get_stock_data(company, time_scale, limit):
+    data = GetStock(company, time_scale, limit)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.debug = True
