@@ -18,7 +18,7 @@ def GetStock(symbol, enoch, limit):
     bars = barset[symbol]
     name = GetNameOfCompany(symbol)
     for i in range(limit):
-        a = str((bars[i].o + bars[i].c)/2)
+        a = (bars[i].o + bars[i].c)/2
         averages.append(a)
         t = bars[i].t
         times.append(t)

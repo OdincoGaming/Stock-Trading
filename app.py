@@ -17,6 +17,7 @@ api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, 'v2')
 
 def GetStock(symbol, enoch, limit):
     #data = []
+    symbol = symbol.upper()
     averages = []
     times = []
     barset = api.get_barset(symbol, enoch, limit=limit)
@@ -39,6 +40,7 @@ def GetListOfStocks():
     return stock_list
 
 def GetNameOfCompany(symbol):
+    symbol = symbol.upper()
     url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(symbol)
 
     result = requests.get(url).json()
